@@ -111,7 +111,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
       user,
       eventType: {
         ...eventType,
-        metadata: EventTypeMetaDataSchema.parse(eventType.metadata),
+        // PaymentPage declares `metadata: Record<string, unknown> | null`;
+        // match it exactly so the spread into the component typechecks.
+        metadata: EventTypeMetaDataSchema.parse(eventType.metadata) as Record<string, unknown> | null,
       },
       booking,
       payment,
