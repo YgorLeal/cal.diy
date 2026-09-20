@@ -2,7 +2,7 @@ import type { IncomingMessage } from "node:http";
 import type { NextPageContext } from "next";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
-import CacheProvider from "react-inlinesvg/provider";
+import RawCacheProvider from "react-inlinesvg/provider";
 
 import { WebPushProvider } from "@calcom/web/modules/notifications/components/WebPushContext";
 import { trpc } from "@calcom/trpc/react";
@@ -10,6 +10,13 @@ import { trpc } from "@calcom/trpc/react";
 import type { AppProps } from "@lib/app-providers";
 
 import "../styles/globals.css";
+
+// react-inlinesvg@4 types its provider React-19 style (returns `ReactNode`),
+// but apps/web type-checks against @types/react 18, which requires
+// `ReactElement | null` from a JSX component. Runtime behaviour is unchanged.
+const CacheProvider = RawCacheProvider as unknown as React.FC<{
+  children?: React.ReactNode;
+}>;
 
 function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
