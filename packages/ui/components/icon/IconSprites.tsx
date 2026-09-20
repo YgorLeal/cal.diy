@@ -1,4 +1,9 @@
-import SVG from "react-inlinesvg";
+import type { FC } from "react";
+import RawSVG from "react-inlinesvg";
+
+// Same React 18 vs 19 JSX return-type mismatch as the provider import:
+// react-inlinesvg@4 is typed for React 19, this package checks against 18.
+const SVG = RawSVG as unknown as FC<{ src: string }>;
 
 // eslint-disable-next-line turbo/no-undeclared-env-vars
 const vercelCommitHash = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
